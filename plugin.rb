@@ -14,7 +14,7 @@ after_initialize do
         num = num.to_i
 
         (1..num).each do |n|
-            roll = 5 #Random.rand(1..size)
+            roll = rand(1..size.to_i)
             result += "+#{roll}"
             sum += roll
         end
