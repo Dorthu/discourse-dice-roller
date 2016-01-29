@@ -7,11 +7,16 @@
 after_initialize do
 
     def roll_dice(type)
-        num, size = type.match(/([1-9]+)d([0-9]+)/i).captures
+        num, size = type.match(/([1-9]*)d([0-9]+)/i).captures
 
         result = ''
         sum = 0
-        num = num.to_i
+
+        if num.nil? or num.empty?
+            num = 1
+        else
+            num = num.to_i
+        end
 
         (1..num).each do |n|
             roll = rand(1..size.to_i)
@@ -27,7 +32,7 @@ after_initialize do
     end
 
     on(:post_created) do |post, params|
-        post.raw.gsub!(/\[ *([1-9]+d[0-9]+) *\]/i) { |c| roll_dice(c) }
+        post.raw.gsub!(/\[ ?roll *([1-9]*d[0-9]+) *\]/i) { |c| roll_dice(c) }
         post.save
     end
 end
