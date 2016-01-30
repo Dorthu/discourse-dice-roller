@@ -1,0 +1,9 @@
+en:
+    site_settings:
+        dice_roller_inline_rolls: >
+            Replace dice roll macros with dice resutls.  If disabled, results will
+            be posted in a reply to the macro'd post.
+        dice_roller_sum_rolls: "Include sum of results when rolling more than 1 dice"
+        dice_roller_append_user: >
+            If not using inlined rolls, the user who will post the roll results.  If
+            using inlined rolls, this is ignored.

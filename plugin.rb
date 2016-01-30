@@ -20,19 +20,33 @@ after_initialize do
 
         (1..num).each do |n|
             roll = rand(1..size.to_i)
-            result += "+#{roll}"
+            result += "+ #{roll} "
             sum += roll
         end
 
         if num == 1
-            "`" + result[1..-1] + "`"
+            "`d#{size}:" + result[1..-1] + "`"
+        elsif SiteSetting.dice_roller_sum_rolls
+            "`#{num}d#{size}:" + result[1..-1] + "= #{sum}`"
         else
-            "`" + result[1..-1] + "=#{sum}`"
+            "`#{num}d#{size}:" + result[1..-1] + "`"
         end
     end
 
-    on(:post_created) do |post, params|
+    def inline_roll(post)
         post.raw.gsub!(/\[ ?roll *([1-9]*d[0-9]+) *\]/i) { |c| roll_dice(c) }
+    end
+
+    def append_roll(post)
+        puts '',"TODO - append rolled dice by the dice_roller_append_user"
+    end
+
+    on(:post_created) do |post, params|
+        if SiteSetting.dice_roller_inline_rolls
+            inline_roll(post)
+        else
+            append_roll(post)
+        end
         post.save
     end
 end
