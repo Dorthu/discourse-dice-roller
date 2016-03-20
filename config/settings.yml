@@ -1,4 +1,7 @@
 plugins:
+    dice_roller_enabled:
+        default: true
+        client: false
     dice_roller_inline_rolls:
         default: true
         client: false

@@ -35,6 +35,7 @@ after_initialize do
 
     def inline_roll(post)
         post.raw.gsub!(/\[ ?roll *([1-9]*d[0-9]+) *\]/i) { |c| roll_dice(c) }
+        post.set_owner(User.find(-1), post.user)
     end
 
     def append_roll(post)
@@ -42,11 +43,13 @@ after_initialize do
     end
 
     on(:post_created) do |post, params|
-        if SiteSetting.dice_roller_inline_rolls
-            inline_roll(post)
-        else
-            append_roll(post)
+        if SiteSetting.dice_roller_enabled and post.raw =~ /\[ ?roll *([1-9]*d[0-9]+) *\]/i
+            if SiteSetting.dice_roller_inline_rolls
+                inline_roll(post)
+            else
+                append_roll(post)
+            end
+            post.save
         end
-        post.save
     end
 end

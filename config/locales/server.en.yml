@@ -1,5 +1,7 @@
 en:
     site_settings:
+        dice_roller_enabled: >
+            Allows users to roll dice in posts using the [ roll xdy ] macro
         dice_roller_inline_rolls: >
             Replace dice roll macros with dice resutls.  If disabled, results will
             be posted in a reply to the macro'd post.
