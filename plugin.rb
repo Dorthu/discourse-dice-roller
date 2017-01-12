@@ -4,33 +4,15 @@
 # authors: dorthu
 # url: https://github.com/Dorthu/discourse-dice-roller
 
+require_relative 'dice'
+
 after_initialize do
 
     def roll_dice(type)
         num, size = type.match(/([1-9]*)d([0-9]+)/i).captures
 
-        result = ''
-        sum = 0
-
-        if num.nil? or num.empty?
-            num = 1
-        else
-            num = num.to_i
-        end
-
-        (1..num).each do |n|
-            roll = rand(1..size.to_i)
-            result += "+ #{roll} "
-            sum += roll
-        end
-
-        if num == 1
-            "`d#{size}:" + result[1..-1] + "`"
-        elsif SiteSetting.dice_roller_sum_rolls
-            "`#{num}d#{size}:" + result[1..-1] + "= #{sum}`"
-        else
-            "`#{num}d#{size}:" + result[1..-1] + "`"
-        end
+        dice = Dice.new(size, SiteSetting.dice_roller_sum_rolls)
+        dice.roll(num).to_s
     end
 
     def inline_roll(post)
